@@ -1,0 +1,23 @@
+version: "3"
+services:
+  deluge:
+    image: linuxserver/deluge
+    container_name: deluge
+    network_mode: host
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Europe/London
+    volumes:
+      - ./deluge:/config
+      - ./downloads:/root/Downloads
+    restart: unless-stopped
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+    - ./downloads:/usr/share/nginx/html
+    - ./nginx:/etc/nginx/conf.d
+    ports:
+    - "80:80"
+    restart: unless-stopped
